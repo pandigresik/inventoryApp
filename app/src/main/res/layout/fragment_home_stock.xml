@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeStockFragment">
+    <LinearLayout
+        android:id="@+id/blockKodeBarang"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeBarangText"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:hint="Scan Kode Barang"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrBarangBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockKoderak"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeBarang"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeRakText"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:hint="Scan Kode Rak"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrRakBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockLot"
+        app:layout_constraintTop_toBottomOf="@id/blockKoderak"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbLot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lot" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockCari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/blockLot"
+        app:layout_constraintStart_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCari"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Cari" />
+    </LinearLayout>
+    <ScrollView
+        android:padding="@dimen/default_gap"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/blockCari"
+        app:layout_constraintStart_toEndOf="parent"
+        tools:ignore="UnknownId">
+
+        <androidx.appcompat.widget.RecyclerView
+            android:id="@+id/rvResultTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+</androidx.constraintlayout.ConstraintLayout>

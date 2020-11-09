@@ -1,0 +1,39 @@
+<resources>
+    <string name="company_name">PT. Indoprima Gemilang</string>
+    <string name="app_name">Inventory App</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="history">History</string>
+    <string name="stock">Stock</string>
+    <string name="stock_out">Stock Out</string>
+    <string name="stockOpname">stock Opname</string>
+
+    <string name="intro_text">Point the camera view to a QR Code to read the information</string>
+    <string name="restart_activity">Restart Activity</string>
+    <string name="stop_start_qreader">Stop QREader</string>
+    <string name="title_activity_stock_out">Stock Out</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="action_sign_in_short">Sign In</string>
+    <string name="error_field_required">required</string>
+    <string name="scan_rak_asal">Scan Rak Asal</string>
+    <string name="scan_kode_barang">Scan Kode Barang</string>
+    <string name="masukkan_jumlah_barang">Masukkan Jumlah Barang</string>
+    <string name="scan_kode_rak_tujuan">Scan Kode Rak Tujuan</string>
+    <string name="simpan">Simpan</string>
+    <string name="lot">Lot</string>
+    <string name="scan_batch_order">Scan Batch Order</string>
+    <string name="scan_kode_rak">Scan Kode Rak</string>
+    <string name="kategori_mr">Kategori MR</string>
+    <string name="item_rmi">ITEM RMI</string>
+    <string name="stock_rmi">STOCK RMI</string>
+    <string name="wo_rmi">WO RMI</string>
+    <string name="outstanding_rmi">Outstanding RMI</string>
+    <string name="note">Note</string>
+    <string name="cetak_label">Cetak Label</string>
+</resources>

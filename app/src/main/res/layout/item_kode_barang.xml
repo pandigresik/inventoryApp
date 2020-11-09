@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemKodeBarang"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/kodeBarangText"
+        android:tag="0"
+        android:layout_weight="6"
+        android:layout_width="0dp"
+        android:hint="Scan Kode Barang"
+        android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/jumlahText"
+        android:hint="Jumlah Barang"
+        android:layout_weight="2"
+        android:inputType="number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/qrBarangBtn"
+        android:layout_weight="2"
+        android:src="@drawable/barcode"
+        android:tooltipText="Scan barcode"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+</LinearLayout>

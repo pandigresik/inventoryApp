@@ -1,0 +1,2 @@
+insert into role_menus(roles_id,menus_id)
+select 1,id from menus where id not in (select menus_id from role_menus)

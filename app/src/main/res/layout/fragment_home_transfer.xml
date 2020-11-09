@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeTransferFragment">
+
+    <LinearLayout
+        android:id="@+id/blockKodeBarang"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeBarangText"
+            android:layout_weight="8"
+            
+            android:layout_width="0dp"
+            android:hint="@string/scan_kode_barang"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrBarangBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" tools:targetApi="o"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockKodeRakAsal"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeBarang"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeRakAsalText"
+            android:layout_weight="8"
+            android:hint="@string/scan_rak_asal"
+            android:layout_width="0dp"
+            android:enabled="false"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrRakAsalBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            android:layout_height="match_parent" tools:targetApi="o"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockJumlah"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeRakAsal"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/jumlahText"
+            android:hint="@string/masukkan_jumlah_barang"
+            android:layout_weight="10"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockKodeRakTujuan"
+        app:layout_constraintTop_toBottomOf="@id/blockJumlah"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeRakTujuanText"
+            android:hint="@string/scan_kode_rak_tujuan"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrRakBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" tools:targetApi="o"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/blockSimpan"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeRakTujuan"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/simpanBtn"
+            android:text="@string/simpan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</androidx.constraintlayout.ConstraintLayout>

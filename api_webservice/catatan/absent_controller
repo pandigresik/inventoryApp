@@ -1,0 +1,124 @@
+/* Controller untuk pengajuan absent */
+class Absent_Controller extends MY_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->model->setUserId($this->getIdUser());
+        $dataUser = $this->getDataUser();
+        $this->model->setNik($dataUser['NIK']);
+        $this->model->setNamaUser($dataUser['NAMABP']);
+        $this->model->setPathUrl($this->pathView);
+    }
+
+    public function add($referenceId = null)
+    {
+        $this->add_external_js(['assets/js/transaksi/absensi.js']);
+        $this->setButtonRight(); // buat tombol kembali
+        $gender = $this->getGenderUser();
+        $genderList = ['S'];
+        if (!empty($gender)) {
+            array_push($genderList, $gender);
+        }
+        $this->model->setGenderAbsent($genderList);
+        parent::add($referenceId);
+    }
+
+    public function setTableConfig()
+    {
+        $this->table->key_record = array('id');
+        $this->table->setHiddenField(['id', 'urutan', 'approval_count', 'absent_type_group_id']);
+    }
+
+    protected function setIndexData()
+    {
+        $this->model->setWithJoinAbsentType(true);
+        $this->addFilters('user_id', $this->getIdUser());
+
+        return parent::setIndexData();
+    }
+
+    public function edit()
+    {
+        $this->includes = array('js' => array(
+            'assets/js/transaksi/absensi.js',
+            ),
+        );
+        $where = $this->input->post('key');
+
+        $data = $this->model->getEditData($where, false);
+        if ($this->canApprove($data)) {
+            $this->model->setApproval(true);
+        } else {
+            $userIdAbsent = $this->getIdUser();
+            if ($this->isResubmit($data)) {
+                if ($data->user_id == $userIdAbsent) {
+                    $this->model->setResubmit(true);
+                }
+            }
+        }
+        $this->_formEdit($data, $where);
+    }
+
+    protected function isResubmit($data)
+    {
+        $result = 0;
+        if ($this->getTransaction()) {
+            $result = $data->status == 'R' ? 1 : 0;
+        }
+
+        return $result;
+    }
+
+    protected function canApprove($data)
+    {
+        $result = 0;
+        $status = $this->config->item('status');
+        if (!$this->getTransaction()) {
+            return $result;
+        }
+
+        if ($data->status == 'A') {
+            $urutanApproval = intval($data->urutan) + 1;
+            $userApproval = $this->getIdUser();
+            $this->load->model('Absent_user_model', 'aum');
+
+            $absentDetail = $this->aum->get_by(['absent_id' => $data->id, 'urutan' => $urutanApproval, 'user_id' => $userApproval]);
+            if (!empty($absentDetail)) {
+                $result = 1;
+            }
+        }
+
+        return $result;
+    }
+
+    public function save()
+    {
+        $image = $this->input->post('attachment');
+        $data = $this->input->post('data');
+        $where = $this->input->post('key');
+        $attachment = null;
+        if (!empty($image)) {
+            $attachment = $this->saveAttachment();
+            if (is_null($attachment)) {
+                $this->result['message'] = 'Gagal simpan attachment';
+                $this->display_json($this->result);
+
+                return;
+            }
+            $data['attachment'] = $attachment;
+        }
+
+        if (empty($where)) {
+            $where = [$this->model->getKeyName() => null];
+        } else {
+            foreach ($where as $_k => $_v) {
+                unset($data[$_k]);
+            }
+        }
+        $saved = $this->model->saveData($where, $data);
+        $this->result = $saved;
+
+        $this->display_json($this->result);
+    }
+}

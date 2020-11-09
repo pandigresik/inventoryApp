@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeStockHistoryFragment">
+
+    <LinearLayout
+        android:id="@+id/blockKodeBarang"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeBarangText"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:hint="Scan Kode Barang"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrBarangBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/blockKoderak"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeBarang"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeRakText"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:hint="Scan Kode Rak"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrRakBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/blockTanggalAwal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/blockKoderak"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/tglAwalText"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="wrap_content"
+            android:hint="Isi tanggal awal"
+            android:ems="10"
+            android:inputType="date"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="46dp" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/tglAwalBtn"
+                android:layout_weight="2"
+                android:src="@drawable/ic_date_range_black_24dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockTanggalAkhir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blockTanggalAwal">
+
+        <EditText
+            android:id="@+id/tglAkhirText"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Isi tanggal akhir"
+            android:ems="10"
+            android:inputType="date"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="46dp" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/tglAkhirBtn"
+            android:layout_weight="2"
+            android:src="@drawable/ic_date_range_black_24dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockCari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/blockTanggalAkhir"
+        app:layout_constraintStart_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCari"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Cari" />
+    </LinearLayout>
+
+    <ScrollView
+        android:padding="@dimen/default_gap"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blockCari">
+
+        <androidx.appcompat.widget.RecyclerView
+            android:id="@+id/rvHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.appcompat.widget.RecyclerView>
+    </ScrollView>
+
+</androidx.constraintlayout.ConstraintLayout>

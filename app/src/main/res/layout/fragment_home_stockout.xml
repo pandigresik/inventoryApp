@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeStockFragment">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/blockKodeBatchOrder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeBatchOrderText"
+            android:layout_weight="8"
+            
+            android:hint="@string/scan_batch_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrBatchOrderBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" tools:targetApi="o"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/blockKodeBarang"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeBatchOrder"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeBarangText"
+            android:layout_weight="8"
+            
+            android:layout_width="0dp"
+            android:hint="@string/scan_kode_barang"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrBarangBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" tools:targetApi="o"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockKodeRak"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeBarang"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kodeRakText"
+            android:hint="@string/scan_kode_rak"
+            android:layout_weight="8"
+            
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/qrRakBtn"
+            android:layout_weight="2"
+            android:src="@drawable/barcode"
+            android:tooltipText="Scan barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" tools:targetApi="o"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockJumlah"
+        app:layout_constraintTop_toBottomOf="@id/blockKodeRak"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/jumlahText"
+            android:hint="@string/masukkan_jumlah_barang"
+            android:layout_weight="10"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/blockNumberMR"
+        app:layout_constraintTop_toBottomOf="@id/blockJumlah"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/mrSpinner"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_width="0dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/blockSimpan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/simpanBtn"
+            android:text="@string/simpan"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:lines="3"
+        android:hint="@string/note"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blockNumberMR" />
+
+</androidx.constraintlayout.ConstraintLayout>

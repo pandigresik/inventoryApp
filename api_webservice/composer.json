@@ -1,0 +1,6 @@
+{
+    "require": {
+        "faisalman/simple-excel-php": "^0.3.15",
+        "php-curl-class/php-curl-class": "^8.8"
+    }
+}
