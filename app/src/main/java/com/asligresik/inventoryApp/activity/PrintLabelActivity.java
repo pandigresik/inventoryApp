@@ -9,6 +9,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +20,12 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.DeviceConnection;
@@ -39,14 +44,32 @@ import com.asligresik.inventoryApp.async.AsyncUsbEscPosPrint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import com.asligresik.inventoryApp.R;
-public class PrintLabelActivity extends BaseActivity {
+import com.zj.btsdk.BluetoothService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
+public class PrintLabelActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks,BluetoothHandler.HandlerInterface {
+    public static final int RC_BLUETOOTH = 0;
+    public static final int RC_CONNECT_DEVICE = 1;
+    public static final int RC_ENABLE_BLUETOOTH = 2;
+
+    private final String TAG = PrintLabelActivity.class.getSimpleName();
+    private BluetoothService mService = null;
+    private boolean isPrinterReady = false;
+
+    @BindView(R.id.tv_status)
+    TextView tvStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_label);
+        ButterKnife.bind(this);
         Button button = (Button) this.findViewById(R.id.button_bluetooth);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,23 +77,70 @@ public class PrintLabelActivity extends BaseActivity {
                 printBluetooth();
             }
         });
-        button = (Button) this.findViewById(R.id.button_usb);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                printUsb();
-            }
-        });
-        button = (Button) this.findViewById(R.id.button_tcp);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                printTcp();
-            }
-        });
+        setupBluetooth();
     }
 
+    @AfterPermissionGranted(RC_BLUETOOTH)
+    private void setupBluetooth() {
+        String[] params = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN};
+        if (!EasyPermissions.hasPermissions(this, params)) {
+            EasyPermissions.requestPermissions(this, "You need bluetooth permission",
+                    RC_BLUETOOTH, params);
+            return;
+        }
+        mService = new BluetoothService(this, new BluetoothHandler(this));
+    }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        // TODO: 10/11/17 do something
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        // TODO: 10/11/17 do something
+    }
+
+    @Override
+    public void onDeviceConnected() {
+        isPrinterReady = true;
+        tvStatus.setText("Terhubung dengan perangkat");
+    }
+
+    @Override
+    public void onDeviceConnecting() {
+        tvStatus.setText("Sedang menghubungkan...");
+    }
+
+    @Override
+    public void onDeviceConnectionLost() {
+        isPrinterReady = false;
+        tvStatus.setText("Koneksi perangkat terputus");
+    }
+
+    @Override
+    public void onDeviceUnableToConnect() {
+        tvStatus.setText("Tidak dapat terhubung ke perangkat");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RC_ENABLE_BLUETOOTH:
+                if (resultCode == RESULT_OK) {
+                    Log.i(TAG, "onActivityResult: bluetooth aktif");
+                } else
+                    Log.i(TAG, "onActivityResult: bluetooth harus aktif untuk menggunakan fitur ini");
+                break;
+            case RC_CONNECT_DEVICE:
+                if (resultCode == RESULT_OK) {
+                    String address = data.getExtras().getString(DeviceActivity.EXTRA_DEVICE_ADDRESS);
+                    BluetoothDevice mDevice = mService.getDevByMac(address);
+                    mService.connect(mDevice);
+                }
+                break;
+        }
+    }
     /*==============================================================================================
     ======================================BLUETOOTH PART============================================
     ==============================================================================================*/
@@ -78,26 +148,29 @@ public class PrintLabelActivity extends BaseActivity {
     public static final int PERMISSION_BLUETOOTH = 1;
 
     public void printBluetooth() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH}, PrintLabelActivity.PERMISSION_BLUETOOTH);
-        } else {
+        if (!mService.isAvailable()) {
+            return;
+        }
+        if (isPrinterReady) {
             // this.printIt(BluetoothPrintersConnections.selectFirstPaired());
             new AsyncBluetoothEscPosPrint(this).execute(this.getAsyncEscPosPrinter(null));
+        } else {
+            if (mService.isBTopen())
+                startActivityForResult(new Intent(this, DeviceActivity.class), RC_CONNECT_DEVICE);
+            else
+                requestBluetooth();
         }
+
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            switch (requestCode) {
-                case PrintLabelActivity.PERMISSION_BLUETOOTH:
-                    this.printBluetooth();
-                    break;
+    private void requestBluetooth() {
+        if (mService != null) {
+            if (!mService.isBTopen()) {
+                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(intent, RC_ENABLE_BLUETOOTH);
             }
         }
     }
-
-
     /*==============================================================================================
     ===========================================USB PART=============================================
     ==============================================================================================*/
@@ -122,44 +195,9 @@ public class PrintLabelActivity extends BaseActivity {
         }
     };
 
-    public void printUsb() {
-        UsbConnection usbConnection = UsbPrintersConnections.selectFirstConnected(this);
-        UsbManager usbManager = (UsbManager) this.getSystemService(Context.USB_SERVICE);
-
-        if (usbConnection == null || usbManager == null) {
-            new AlertDialog.Builder(this)
-                    .setTitle("USB Connection")
-                    .setMessage("No USB printer found.")
-                    .show();
-            return;
-        }
-
-        PendingIntent permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(PrintLabelActivity.ACTION_USB_PERMISSION), 0);
-        IntentFilter filter = new IntentFilter(PrintLabelActivity.ACTION_USB_PERMISSION);
-        registerReceiver(this.usbReceiver, filter);
-        usbManager.requestPermission(usbConnection.getDevice(), permissionIntent);
-    }
-
     /*==============================================================================================
     =========================================TCP PART===============================================
     ==============================================================================================*/
-
-    public void printTcp() {
-        final EditText ipAddress = (EditText) this.findViewById(R.id.edittext_tcp_ip);
-        final EditText portAddress = (EditText) this.findViewById(R.id.edittext_tcp_port);
-
-        try {
-            // this.printIt(new TcpConnection(ipAddress.getText().toString(), Integer.parseInt(portAddress.getText().toString())));
-            new AsyncTcpEscPosPrint(this)
-                    .execute(this.getAsyncEscPosPrinter(new TcpConnection(ipAddress.getText().toString(), Integer.parseInt(portAddress.getText().toString()))));
-        } catch (NumberFormatException e) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Invalid TCP port address")
-                    .setMessage("Port field must be a number.")
-                    .show();
-            e.printStackTrace();
-        }
-    }
 
     /*==============================================================================================
     ===================================ESC/POS PRINTER PART=========================================

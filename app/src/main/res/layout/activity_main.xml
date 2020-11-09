@@ -18,22 +18,29 @@
             android:layout_height="wrap_content">
         </androidx.appcompat.widget.AppCompatTextView>
     </androidx.appcompat.widget.LinearLayoutCompat>
-    <androidx.gridlayout.widget.GridLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="30dp"
-        app:columnCount="2"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtUserInfo"
-        app:orientation="horizontal"
-        app:rowCount="3">
+        >
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="60dp"
             android:background="#5F9EA0"
             app:layout_columnWeight="1"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+            app:layout_constraintEnd_toStartOf="@+id/frameLayout6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -61,10 +68,15 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="#D2691E"
             app:layout_columnWeight="1"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout3"
+            app:layout_constraintEnd_toStartOf="@+id/frameLayout7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -92,10 +104,15 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="#CD5C5C"
             app:layout_columnWeight="1"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout4"
+            app:layout_constraintEnd_toStartOf="@+id/frameLayout8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -123,10 +140,15 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="#B8860B"
             app:layout_columnWeight="1"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout5"
+            app:layout_constraintEnd_toStartOf="@+id/frameLayout9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -154,10 +176,15 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="#B8860B"
             app:layout_columnWeight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/frameLayout4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout4"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -185,10 +212,16 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="60dp"
             android:background="#EE0089"
             app:layout_columnWeight="2"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -216,10 +249,15 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@color/colorPrimaryDark"
             app:layout_columnWeight="2"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout6"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -245,11 +283,17 @@
                     android:textSize="20sp" />
             </RelativeLayout>
         </FrameLayout>
+
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@android:color/holo_orange_light"
             app:layout_columnWeight="4"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout7"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -275,11 +319,18 @@
                     android:textSize="20sp" />
             </RelativeLayout>
         </FrameLayout>
+
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/frameLayout9"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="110dp"
             android:background="@android:color/holo_red_light"
             app:layout_columnWeight="4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout8"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -305,5 +356,5 @@
                     android:textSize="20sp" />
             </RelativeLayout>
         </FrameLayout>
-    </androidx.gridlayout.widget.GridLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
