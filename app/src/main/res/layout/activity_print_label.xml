@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/default_gap"
     tools:context=".activity.PrintLabelActivity">
 
     <LinearLayout
+        android:id="@+id/blockBtnPrint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" Status " />
 
         <Button
             android:id="@+id/button_bluetooth"
@@ -18,22 +31,69 @@
             android:layout_marginBottom="20dp"
             android:text="Print by bluetooth !" />
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="5dp"
-                android:text=" Status " />
-        </LinearLayout>
-
     </LinearLayout>
 
+    <com.asligresik.inventoryApp.activity.DelayAutoCompleteTextView
+        android:id="@+id/acRmi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan RMI code, minimal 4 karakter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/pb_loading_indicator"
+        style="?android:attr/progressBarStyleSmall"
+        app:layout_constraintTop_toTopOf="@+id/acRmi"
+        app:layout_constraintStart_toEndOf="@+id/acRmi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="@dimen/default_gap"
+        android:visibility="gone"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/acPoNumber"
+        android:hint="Nomer PO"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acRmi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etQuantity"
+        android:hint="Quantity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acPoNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/etLabelQuantity"
+        android:hint="Jumlah label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etLabelQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/etTglDatang"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_weight="8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Tanggal Datang"
+        android:ems="10"
+        android:inputType="date"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="46dp" />
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/tglDatangBtn"
+        android:layout_weight="2"
+        android:src="@drawable/ic_date_range_black_24dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

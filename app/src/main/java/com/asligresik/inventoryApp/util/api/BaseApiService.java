@@ -4,7 +4,9 @@ import com.asligresik.inventoryApp.model.ResponseHistory;
 import com.asligresik.inventoryApp.model.ResponseKategoriMr;
 import com.asligresik.inventoryApp.model.ResponseMr;
 import com.asligresik.inventoryApp.model.ResponseOutstandingRmiItem;
+import com.asligresik.inventoryApp.model.ResponseRmiGoodReceipt;
 import com.asligresik.inventoryApp.model.ResponseRmiItem;
+import com.asligresik.inventoryApp.model.ResponseSaveGoodReceipt;
 import com.asligresik.inventoryApp.model.ResponseStock;
 import com.asligresik.inventoryApp.model.ResponseStockRmiItem;
 
@@ -70,6 +72,13 @@ public interface BaseApiService {
 
     @GET("stock/stockItemRmi")
     Call<ResponseOutstandingRmiItem> getStockItemRmi();
+
+    @GET("goodReceipt/rmiSearch")
+    Call<ResponseRmiGoodReceipt> getRmiSearch(@Query("rmi") String rmi);
+
+    @FormUrlEncoded
+    @POST("goodReceipt/save")
+    Call<ResponseSaveGoodReceipt> saveGoodReceipt(@Field("rmi") String rmi, @Field("po") String po, @Field("tgl") String tgl, @Field("jmllabel") String jmllabel, @Field("qty") String qty);
 
     // Fungsi ini untuk memanggil API http://10.0.2.2/mahasiswa/register.php
     @FormUrlEncoded
