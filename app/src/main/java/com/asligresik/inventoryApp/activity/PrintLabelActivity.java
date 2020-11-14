@@ -65,6 +65,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     private boolean isPrinterReady = false;
     private Context mContext;
     private ArrayAdapter<String> poAdapter;
+    private String printText;
 
     ProgressDialog loading;
 
@@ -78,8 +79,11 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     AutoCompleteTextView acPoNumber;
     @BindView(R.id.etLabelQuantity)
     EditText etLabelQuantity;
+    @BindView(R.id.etQuantity)
+    EditText etQuantity;
     @BindView(R.id.pb_loading_indicator)
     ProgressBar loadingIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +113,15 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
                 acRmi.setText(rmi.getRmi());
             }
         });
+
+        printText = "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>" +
+                "[C]<qrcode size='20'>RMI.909089898\n2020-09-09\n87</qrcode>";
     }
+    @OnClick(R.id.btnDirect)
+    public void cetakLabel(){
+        new AsyncBluetoothEscPosPrint(this).execute(this.getAsyncEscPosPrinter(null, this.printText));
+    }
+
     @OnClick(R.id.tglDatangBtn)
     public void showDatePicker(){
         Calendar calendar = Calendar.getInstance();
@@ -205,7 +217,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
             String po = acPoNumber.getText().toString();
             String jmllabel = etLabelQuantity.getText().toString();
             String tgl = etTglDatang.getText().toString();
-            String qty = "1000";
+            String qty = etQuantity.getText().toString();
             loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
             getmApiService().saveGoodReceipt(rmi, po, tgl, jmllabel, qty).enqueue(new Callback<ResponseSaveGoodReceipt>() {
                 @Override
@@ -215,10 +227,10 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
                         String message = response.body().getMessage();
                         Integer status = response.body().getStatus();
                         if (status == 1) {
-                            String printText = response.body().getPrintText();
+                            String _printText = response.body().getPrintText();
+                            printText = _printText;
                             loading.dismiss();
-                            new AsyncBluetoothEscPosPrint(mContext).execute(getAsyncEscPosPrinter(null, printText));
-                            Toast.makeText(mContext,"Cetak "+printText, Toast.LENGTH_SHORT).show();
+                            new AsyncBluetoothEscPosPrint(mContext).execute(getAsyncEscPosPrinter(null, _printText));
                         }
                     } else {
                         loading.dismiss();
@@ -329,6 +341,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection, String printText) {
         SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
         AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 220, 58f, 45);
+        Toast.makeText(mContext,"Siap Cetak "+printText, Toast.LENGTH_SHORT).show();
         return printer.setTextToPrint(printText);
 //        return printer.setTextToPrint(
 //                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, this.getApplicationContext().getResources().getDrawableForDensity(R.drawable.logo, DisplayMetrics.DENSITY_MEDIUM)) + "</img>\n" +

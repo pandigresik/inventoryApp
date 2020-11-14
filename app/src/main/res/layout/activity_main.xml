@@ -9,38 +9,39 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/txtUserInfo"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtUserName"
             android:text="Afandi"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </androidx.appcompat.widget.AppCompatTextView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
+        android:layout_height="0dp"
+        app:alignmentMode="alignMargins"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtUserInfo"
-        >
+        app:columnCount="2"
+        app:rowCount="5">
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="60dp"
             android:background="#5F9EA0"
+            app:cardBackgroundColor="#5F9EA0"
+            android:layout_margin="8dp"
             app:layout_columnWeight="1"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
-            app:layout_constraintEnd_toStartOf="@+id/frameLayout6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -60,23 +61,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="Stock In"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#D2691E"
+            app:cardBackgroundColor="#D2691E"
+            android:layout_margin="8dp"
             app:layout_columnWeight="1"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout3"
-            app:layout_constraintEnd_toStartOf="@+id/frameLayout7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -96,23 +95,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/job"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="@string/stock_out"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout3"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#CD5C5C"
+            app:cardBackgroundColor="#CD5C5C"
+            android:layout_margin="8dp"
             app:layout_columnWeight="1"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout4"
-            app:layout_constraintEnd_toStartOf="@+id/frameLayout8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -132,23 +129,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/notif"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="@string/stock"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout4"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#B8860B"
+            app:cardBackgroundColor="#B8860B"
+            android:layout_margin="8dp"
             app:layout_columnWeight="1"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout5"
-            app:layout_constraintEnd_toStartOf="@+id/frameLayout9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -168,23 +163,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/mail"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="@string/history"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout5"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#B8860B"
+            app:cardBackgroundColor="#B8860B"
+            android:layout_margin="8dp"
             app:layout_columnWeight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/frameLayout4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout4"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -205,24 +198,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgStockOpname"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="@string/stockOpname"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout6"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="60dp"
             android:background="#EE0089"
-            app:layout_columnWeight="2"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout"
-            app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="#EE0089"
+            android:layout_margin="8dp"
+            app:layout_columnWeight="1"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -242,23 +232,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgIncoming"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="Transfer"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout7"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/colorPrimaryDark"
-            app:layout_columnWeight="2"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout6"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_margin="8dp"
+            app:layout_columnWeight="1"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -278,23 +266,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgReporting"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="Oustanding MR"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout8"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@android:color/holo_orange_light"
-            app:layout_columnWeight="4"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout3"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout7"
+            app:cardBackgroundColor="@android:color/holo_orange_light"
+            android:layout_margin="8dp"
+            app:layout_columnWeight="1"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -314,24 +300,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgStockRmi"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="Stock RMI"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/frameLayout9"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="110dp"
             android:background="@android:color/holo_red_light"
-            app:layout_columnWeight="4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout4"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout8"
+            app:cardBackgroundColor="@android:color/holo_red_light"
+            android:layout_margin="8dp"
+            app:layout_columnWeight="1"
             app:layout_rowWeight="1">
 
             <RelativeLayout
@@ -341,8 +324,8 @@
 
                 <ImageView
                     android:id="@+id/imgPrintLabel"
-                    android:layout_width="42dp"
-                    android:layout_height="52dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/stock"
                     tools:srcCompat="@drawable/qrcode" />
@@ -352,11 +335,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgPrintLabel"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    
                     android:text="@string/cetak_label"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        </FrameLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.gridlayout.widget.GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

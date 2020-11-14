@@ -30,6 +30,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Print by bluetooth !" />
+        <Button
+            android:id="@+id/btnDirect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Test by bluetooth !" />
 
     </LinearLayout>
 
@@ -40,16 +46,17 @@
         android:hint="Masukkan RMI code, minimal 4 karakter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/pb_loading_indicator"
         style="?android:attr/progressBarStyleSmall"
-        app:layout_constraintTop_toTopOf="@+id/acRmi"
-        app:layout_constraintStart_toEndOf="@+id/acRmi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="20dp"
         android:layout_gravity="center_vertical|right"
-        android:layout_marginRight="@dimen/default_gap"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/acRmi"
+        app:layout_constraintTop_toTopOf="@+id/acRmi" />
 
     <AutoCompleteTextView
         android:id="@+id/acPoNumber"
