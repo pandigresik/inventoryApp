@@ -140,7 +140,7 @@ public class AppUtility {
     public static HashMap<String,String> extractBarcode(String barcode) {
         HashMap<String,String> hashMap = new HashMap<>();
         String[] keyMap = {"kodeBarang","qty","tgl","referencesNumber"};
-        String[] lines = barcode.split("\\r?\\n");
+        String[] lines = barcode.split("\\r?\\n|&");
         for(int i = 0; i < lines.length; i++){
             hashMap.put(keyMap[i],lines[i]);
         }

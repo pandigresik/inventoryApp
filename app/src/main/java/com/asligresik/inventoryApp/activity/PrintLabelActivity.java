@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.asligresik.inventoryApp.R;
@@ -66,6 +67,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     private Context mContext;
     private ArrayAdapter<String> poAdapter;
     private String printText;
+    private List<String> sequenceLabel = new ArrayList<String>();
 
     ProgressDialog loading;
 
@@ -83,6 +85,12 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     EditText etQuantity;
     @BindView(R.id.pb_loading_indicator)
     ProgressBar loadingIndicator;
+    @BindView(R.id.btnSave)
+    Button btnSave;
+    @BindView(R.id.btnPrint)
+    Button btnPrint;
+    @BindView(R.id.btnSavePrint)
+    Button btnSavePrint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +98,6 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
         setContentView(R.layout.activity_print_label);
         mContext = this;
         ButterKnife.bind(this);
-        Button button = (Button) this.findViewById(R.id.button_bluetooth);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                printBluetooth();
-            }
-        });
         setupBluetooth();
         poAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,new ArrayList<String>());
         acPoNumber.setAdapter(poAdapter);
@@ -114,9 +115,56 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
             }
         });
 
-        printText = "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>" +
-                "[C]<qrcode size='20'>RMI.909089898\n2020-09-09\n87</qrcode>";
+        printText = "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>\n" +
+                "[C]<qrcode size='20'>RMI.909089898&2020-09-09&87</qrcode>\n";
     }
+
+    @OnClick(R.id.btnSave)
+    public void simpan(){
+        saveGoodReceipt(false);
+    }
+
+    @OnClick(R.id.btnSavePrint)
+    public void simpanCetak(){
+        saveGoodReceipt(true);
+    }
+
+    @OnClick(R.id.btnPrint)
+    public void cetakLabelText(){
+        String printText = getPrintedText();
+        new AsyncBluetoothEscPosPrint(this).execute(this.getAsyncEscPosPrinter(null, printText));
+    }
+
+    private String getPrintedText() {
+        String labelQR = "";
+        if (!sequenceLabel.isEmpty()) {
+            String rmi = acRmi.getText().toString();
+            String po = acPoNumber.getText().toString();
+            int jmllabel = Integer.parseInt(etLabelQuantity.getText().toString());
+            String tgl = etTglDatang.getText().toString();
+            int qty = Integer.parseInt(etQuantity.getText().toString()) / jmllabel;
+            HashMap<String,String> hashMap = new HashMap<>();
+            hashMap.put("rmi",rmi);
+            hashMap.put("po",po);
+            hashMap.put("tgl",tgl);
+            hashMap.put("qty",String.valueOf(qty));
+            for (String label : sequenceLabel)
+            {
+                labelQR += generateQRLabel(label,hashMap);
+            }
+        }
+        return labelQR;
+    }
+
+    private String generateQRLabel(String label, HashMap<String,String> hashMap) {
+        String result ="[C]<u><font size='big'>PENERIMAAN</font></u>\n" +
+                "[C]<b>" + label + "</b>\n"+
+                "[L]\n"+
+                "[C]<qrcode size='20'>"+hashMap.get("rmi")+"&"+hashMap.get("tgl")+"&"+hashMap.get("qty")+"&"+hashMap.get("po")+"</qrcode>\n"+
+                "[L]_________________________________\n";
+        return result;
+    }
+
     @OnClick(R.id.btnDirect)
     public void cetakLabel(){
         new AsyncBluetoothEscPosPrint(this).execute(this.getAsyncEscPosPrinter(null, this.printText));
@@ -208,7 +256,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
 
     public static final int PERMISSION_BLUETOOTH = 1;
 
-    public void printBluetooth() {
+    public void saveGoodReceipt(Boolean autoPrint) {
         if (!mService.isAvailable()) {
             return;
         }
@@ -228,9 +276,11 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
                         Integer status = response.body().getStatus();
                         if (status == 1) {
                             String _printText = response.body().getPrintText();
-                            printText = _printText;
+                            sequenceLabel = response.body().getLabel();
                             loading.dismiss();
-                            new AsyncBluetoothEscPosPrint(mContext).execute(getAsyncEscPosPrinter(null, _printText));
+                            if(autoPrint){
+                                btnPrint.performClick();
+                            }
                         }
                     } else {
                         loading.dismiss();
@@ -343,34 +393,5 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
         AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 220, 58f, 45);
         Toast.makeText(mContext,"Siap Cetak "+printText, Toast.LENGTH_SHORT).show();
         return printer.setTextToPrint(printText);
-//        return printer.setTextToPrint(
-//                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, this.getApplicationContext().getResources().getDrawableForDensity(R.drawable.logo, DisplayMetrics.DENSITY_MEDIUM)) + "</img>\n" +
-//                        "[L]\n" +
-//                        "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
-//                        "[C]<font size='small'>" + format.format(new Date()) + "</font>\n" +
-//                        "[L]\n" +
-//                        "[C]================================\n" +
-//                        "[L]\n" +
-//                        "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
-//                        "[L]  + Size : S\n" +
-//                        "[L]\n" +
-//                        "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
-//                        "[L]  + Size : 57/58\n" +
-//                        "[L]\n" +
-//                        "[C]--------------------------------\n" +
-//                        "[R]TOTAL PRICE :[R]34.98e\n" +
-//                        "[R]TAX :[R]4.23e\n" +
-//                        "[L]\n" +
-//                        "[C]================================\n" +
-//                        "[L]\n" +
-//                        "[L]<font size='tall'>Customer :</font>\n" +
-//                        "[L]Raymond DUPONT\n" +
-//                        "[L]5 rue des girafes\n" +
-//                        "[L]31547 PERPETES\n" +
-//                        "[L]Tel : +33801201456\n" +
-//                        "[L]\n" +
-//                        "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-//                        "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>\n"
-//        );
     }
 }

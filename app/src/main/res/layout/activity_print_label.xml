@@ -4,40 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/default_gap"
+    android:paddingHorizontal="@dimen/fab_margin"
     tools:context=".activity.PrintLabelActivity">
-
-    <LinearLayout
-        android:id="@+id/blockBtnPrint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/tv_status"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Status " />
-
-        <Button
-            android:id="@+id/button_bluetooth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="Print by bluetooth !" />
-        <Button
-            android:id="@+id/btnDirect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="Test by bluetooth !" />
-
-    </LinearLayout>
 
     <com.asligresik.inventoryApp.activity.DelayAutoCompleteTextView
         android:id="@+id/acRmi"
@@ -69,6 +37,7 @@
     <EditText
         android:id="@+id/etQuantity"
         android:hint="Quantity"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acPoNumber"
         android:layout_width="match_parent"
@@ -76,6 +45,7 @@
     <EditText
         android:id="@+id/etLabelQuantity"
         android:hint="Jumlah label"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etQuantity"
         android:layout_width="match_parent"
@@ -102,5 +72,51 @@
         android:src="@drawable/ic_date_range_black_24dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        app:layout_constraintBottom_toTopOf="@id/blockBtnPrint"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/tv_status"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Status " />
+    <LinearLayout
+        android:id="@+id/blockBtnPrint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_gap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnSave"
+            android:textSize="8sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simpan" />
+        <Button
+            android:id="@+id/btnSavePrint"
+            android:textSize="8sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simpan - Cetak" />
+        <Button
+            android:id="@+id/btnPrint"
+            android:textSize="8sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cetak" />
+        <Button
+            android:id="@+id/btnDirect"
+            android:textSize="8sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test !" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

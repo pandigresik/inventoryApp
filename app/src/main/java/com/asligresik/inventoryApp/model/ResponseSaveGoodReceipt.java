@@ -15,6 +15,9 @@ public class ResponseSaveGoodReceipt {
 	@SerializedName("message")
 	private String message;
 
+	@SerializedName("label")
+	private List<String> label;
+
 	public String getPrintText() {
 		return printText;
 	}
@@ -37,6 +40,14 @@ public class ResponseSaveGoodReceipt {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public List<String> getLabel() {
+		return label;
+	}
+
+	public void setLabel(List<String> label) {
+		this.label = label;
 	}
 
 	@Override
