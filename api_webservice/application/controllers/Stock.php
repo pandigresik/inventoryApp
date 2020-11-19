@@ -15,11 +15,32 @@
 
 class Stock extends REST_Controller
 {
+    private $decodedToken;		
     public function __construct(){
         parent::__construct();
-		//$this->load->helper(array('authorization','jwt'));
+		$this->load->helper(array('authorization','jwt'));
 		$this->load->model('movement_model','mm');
+		$this->checkToken();
     }
+    
+    private function checkToken()
+    {
+        $headers = $this->input->request_headers();
+        $result = false;
+        if (array_key_exists('Authorization', $headers) && !empty($headers['Authorization'])) {
+            $decodedToken = AUTHORIZATION::validateToken($headers['Authorization']);
+            if ($decodedToken != false) {
+                $this->decodedToken = $decodedToken;
+                $result = true;
+            }
+        }
+
+        if (!$result) {
+            $this->response('Unauthorized', 401);
+
+            return;
+        }
+    }	
     /**
      * URL: http://localhost/CodeIgniter-JWT-Sample/auth/token
      * Method: GET
@@ -28,6 +49,10 @@ class Stock extends REST_Controller
     {   
 	
 	$datas = json_decode($this->post('listbarang'),1);
+log_message('error',json_encode($this->decodedToken));
+$output = ['status' => 1, 'message' => 'Barang berhasil ditambahkan'];
+        $this->response($output, 200);
+        return;
 	$kodebarangs = array_column($datas,'kodebarang');	
 	// periksa apakah sudah pernah discan atau belum
 	$adaMovement = $this->mm->distinct()->fields(['kodebarang'])->get_many_by(['kodebarang' => $kodebarangs]);
@@ -93,28 +118,33 @@ class Stock extends REST_Controller
     
     public function saveout_post()
     {   
-      		list($mr,$fg) = explode("__",$this->post('kodemr'));
+    		list($mr,$fg) = explode("__",$this->post('kodemr'));
 		$data = [
 		'kodebarang' => $this->post('kodebarang'),
 		'koderak' => $this->post('koderak'),
 		'reference_number' => $this->post('kodebatchorder'),
 		'tgl_transaksi' => date('Y-m-d H:i:s'),
 		'quantity' => $this->post('quantity'),
+		'note' => $this->post('note'),
 		'tipe' => 'OUT',
 		'mr' => $mr == "Pilih MR" ? NULL : $mr,
 		'fg' => $fg == "Pilih FG" ? NULL : $fg
 	];
+//	log_message('error', json_encode($data));
 	$error = 0;
-	/* cek stocknya dulu*/
-	$jmlStock = $this->db->query('exec dbo.stockBarang \'\',\''.$data['kodebarang'].'\'')->row_array();
+	/* cek stocknya dulu
+//	$jmlStock = $this->db->query('exec dbo.stockBarang \'\',\''.$data['kodebarang'].'\'')->row_array();
+*/
+//	$jmlStock = $this->db->query('exec dbo.stockBarangRmi \'\',\''.$data['kodebarang'].'\',\''.$data['quantity'].'\'')->row_array();
+	$jmlStock = ['status' => 0, 'message' => 'Tidak bisa dilakukan stock out, jumlah melebihi quantity '];
 	if(empty($jmlStock)){
 		$error++;
-		$output = ['status' => 0, 'message' => 'Barang tidak ditemukan'];
+		$output = ['status' => 0, 'message' => $jmlStock['message']];
 	}else{
-		if($jmlStock['qty'] <= 0){
+		if(!$jmlStock['status']){
 			$error++;
 		}
-		$output = ['status' => 0, 'message' => 'Barang tidak ditemukan'];
+		$output = ['status' => 0, 'message' => $jmlStock['message']];
 	}
 	
 	if(!$error){
@@ -214,7 +244,8 @@ class Stock extends REST_Controller
 			'content' => ''
 		];	
 	$kodebarang = $this->get('kodebarang'); 
-	$detail = $this->db->query('exec dbo.cariRakBarang \''.$kodebarang.'\'')->row_array();
+//	$detail = $this->db->query('exec dbo.cariRakBarang \''.$kodebarang.'\'')->row_array();
+	$detail = ['koderak' => 'A4', 'qty' => 55];
 	if(!empty($detail)){
 		$output['status'] = 1; 
 		$output['content'] = $detail['koderak'];
@@ -224,7 +255,8 @@ class Stock extends REST_Controller
 
         $this->response($output, 200);
 	}
-		public function listMr_get()
+	
+	public function listMr_get()
     {
 
 	$kodebarang = $this->get('kodebarang'); 
@@ -242,4 +274,100 @@ class Stock extends REST_Controller
 
         $this->response($output, 200);
 	}	
+	
+	public function kategoriMr_get()
+    {
+
+//	$detail = $this->db->query('exec dbo.getKategoriMr')->result_array();	
+	$detail = [
+	   ['mr' => 'MR7879878'],
+   	   ['mr' => 'MR7879879'],
+   	   ['mr' => 'MR7879880'],
+	];
+	$output = [
+		'status' => 1, 
+		'message' => 'Detail stok barang',
+		'content' => $detail
+	];
+
+        $this->response($output, 200);
+	}
+	
+	public function itemRmi_get()
+    {
+	$rmi = $this->get('rmi'); 
+
+//	$detail = $this->db->query('exec dbo.getDetailRmi \''.$rmi.'\'')->result_array();	
+	$detail = [
+	   ['rmi' => 'MR7879878', 'number' => 'A789', 'tanggal' => '2020-08-09'],
+	   ['rmi' => 'MR7879878', 'number' => 'A789', 'tanggal' => '2020-08-09'],
+	   ['rmi' => 'MR7879878', 'number' => 'A789', 'tanggal' => '2020-08-09'],
+	];
+	$output = [
+		'status' => 1, 
+		'message' => 'Detail stok barang',
+		'content' => $detail
+	];
+
+        $this->response($output, 200);
+	}
+	public function stockRmi_get()
+    {
+	$rmi = $this->get('rmi'); 
+
+//	$detail = $this->db->query('exec dbo.getStockRmi \''.$rmi.'\'')->result_array();	
+	$detail = [
+	   ['rmi' => 'MR7879877', 'number' => 'A789','name' => 'naman 787','namefg' => 'namafg', 'qty' => 90, 'qtyact' => 40],
+		['rmi' => 'MR4879878', 'number' => 'A799','name' => 'nama 788','namefg' => 'namafg', 'qty' => 90, 'qtyact' => 40],
+		['rmi' => 'MR7879879', 'number' => 'B789','name' => 'nama 799','namefg' => 'namafg', 'qty' => 90, 'qtyact' => 40]
+	];
+
+	$output = [
+		'status' => 1, 
+		'message' => 'Detail stok barang',
+		'content' => $detail
+	];
+
+        $this->response($output, 200);
+	}
+
+	public function stockItemRmi_get()
+    {
+
+//	$detail = $this->db->query('exec dbo.getStockItemRmi')->result_array();	
+	$detail = [
+	   ['rmi' => 'MR7879878', 'number' => 'AB789','name' => 'namanya'],
+	   ['rmi' => 'MR7879878', 'number' => 'AN789','name' => 'namanya'],
+	   ['rmi' => 'MR7879878', 'number' => 'AC789','name' => 'namanya']
+	];
+
+	$output = [
+		'status' => 1, 
+		'message' => 'Detail stok barang',
+		'content' => $detail
+	];
+
+        $this->response($output, 200);
+	}	
+		
+	public function stockRakRmi_get()
+    {
+	$rmi = $this->get('rmi'); 
+
+//	$detail = $this->db->query('exec dbo.getStockRakRmi \''.$rmi.'\'')->result_array();	
+	$detail = [
+	   ['rmi' => 'MR7879878', 'rak' => 'A789','qty' => '50'],
+	   ['rmi' => 'MR7879878', 'rak' => 'A789','qty' => '50'],
+	   ['rmi' => 'MR7879878', 'rak' => 'A789','qty' => '150'],
+	];
+
+	$output = [
+		'status' => 1, 
+		'message' => 'Detail stok barang',
+		'content' => $detail
+	];
+
+        $this->response($output, 200);
+	}	
+	
 }

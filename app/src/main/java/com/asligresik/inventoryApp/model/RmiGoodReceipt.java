@@ -11,6 +11,28 @@ public class RmiGoodReceipt {
     @SerializedName("po")
     private List<String> po;
 
+    public String getPartnumber() {
+        return partnumber;
+    }
+
+    public void setPartnumber(String partnumber) {
+        this.partnumber = partnumber;
+    }
+
+    public String getPartname() {
+        return partname;
+    }
+
+    public void setPartname(String partname) {
+        this.partname = partname;
+    }
+
+    @SerializedName("partnumber")
+    private String partnumber;
+
+    @SerializedName("partname")
+    private String partname;
+
     public String getRmi() {
         return rmi;
     }

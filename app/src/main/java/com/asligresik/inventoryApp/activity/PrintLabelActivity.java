@@ -83,6 +83,10 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     EditText etLabelQuantity;
     @BindView(R.id.etQuantity)
     EditText etQuantity;
+    @BindView(R.id.etPartName)
+    EditText etPartName;
+    @BindView(R.id.etPartNumber)
+    EditText etPartNumber;
     @BindView(R.id.pb_loading_indicator)
     ProgressBar loadingIndicator;
     @BindView(R.id.btnSave)
@@ -111,6 +115,8 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
                 poAdapter.clear();
                 poAdapter.addAll(rmi.getPo());
                 poAdapter.notifyDataSetChanged();
+                etPartName.setText(rmi.getPartname());
+                etPartNumber.setText(rmi.getPartnumber());
                 acRmi.setText(rmi.getRmi());
             }
         });
@@ -139,12 +145,16 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
         String labelQR = "";
         if (!sequenceLabel.isEmpty()) {
             String rmi = acRmi.getText().toString();
+            String partname = etPartName.getText().toString();
+            String partnumber = etPartNumber.getText().toString();
             String po = acPoNumber.getText().toString();
             int jmllabel = Integer.parseInt(etLabelQuantity.getText().toString());
             String tgl = etTglDatang.getText().toString();
             int qty = Integer.parseInt(etQuantity.getText().toString()) / jmllabel;
             HashMap<String,String> hashMap = new HashMap<>();
             hashMap.put("rmi",rmi);
+            hashMap.put("partname",partname);
+            hashMap.put("partnumber",partnumber);
             hashMap.put("po",po);
             hashMap.put("tgl",tgl);
             hashMap.put("qty",String.valueOf(qty));
@@ -157,11 +167,18 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     }
 
     private String generateQRLabel(String label, HashMap<String,String> hashMap) {
-        String result ="[C]<u><font size='big'>PENERIMAAN</font></u>\n" +
+        String tgl = hashMap.get("tgl").replace("-",".").substring(2);
+        String result ="[L]IPG-FORM/PPIC-1/IC-6\n"+
+                "[L]REV  : 3 [R]"+hashMap.get("tgl").substring(0,6)+"\n"+
+                "[L]DATE  : 01.09.19 \n"+
+                "[C]<u><font size='small'>PENERIMAAN</font></u>\n" +
                 "[C]<b>" + label + "</b>\n"+
                 "[L]\n"+
-                "[C]<qrcode size='20'>"+hashMap.get("rmi")+"&"+hashMap.get("tgl")+"&"+hashMap.get("qty")+"&"+hashMap.get("po")+"</qrcode>\n"+
-                "[L]_________________________________\n";
+                "[C]<qrcode size='10'>"+hashMap.get("rmi")+"."+tgl+"."+label+"&"+hashMap.get("tgl")+"&"+hashMap.get("qty")+"&"+hashMap.get("po")+"</qrcode>\n"+
+                "[L]<b>"+hashMap.get("rmi")+"</b>\n"+
+                "[L]<b>"+hashMap.get("partnumber")+"</b>\n"+
+                "[L]<b>"+hashMap.get("partname")+"</b>\n"+
+                "[C]__________________________\n";
         return result;
     }
 
@@ -390,7 +407,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     @SuppressLint("SimpleDateFormat")
     public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection, String printText) {
         SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
-        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 220, 58f, 45);
+        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 220, 48f, 32);
         Toast.makeText(mContext,"Siap Cetak "+printText, Toast.LENGTH_SHORT).show();
         return printer.setTextToPrint(printText);
     }

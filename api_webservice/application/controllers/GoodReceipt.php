@@ -48,9 +48,9 @@ class GoodReceipt extends REST_Controller
 
 //	$detail = $this->db->query('exec dbo.getGoodReceiptRmi \''.$rmi.'\'')->result_array();	
 	$detail = [
-	   ['rmi' => 'RMI.WH.01.00000448', 'po' => ['PO/2019/08/0001','PO/2019/08/0002','PO/2019/08/0003']],
-	   ['rmi' => 'RMI.WH.01.00000449', 'po' => ['PO/2019/08/0004','PO/2019/08/0005','PO/2019/08/0006']],
-	   ['rmi' => 'RMI.WH.01.00000447', 'po' => ['PO/2019/08/0007','PO/2019/08/0008','PO/2019/08/0009']],
+	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => ['PO/2019/08/0001','PO/2019/08/0002','PO/2019/08/0003']],
+	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => ['PO/2019/08/0004','PO/2019/08/0005','PO/2019/08/0006']],
+	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => ['PO/2019/08/0007','PO/2019/08/0008','PO/2019/08/0009']],
 	];
 
 	$output = [
@@ -74,7 +74,7 @@ class GoodReceipt extends REST_Controller
 	];
 
 	$start = 0;
-	$lastlabel = $this->grm->fields('no_label')->order_by('no_label','desc')->get_by(['tgl_datang' => date('Y-m-d'),'kodebarang' => $data['kodebarang']]);
+	$lastlabel = $this->grm->fields('no_label')->order_by('no_label','desc')->get_by(['tgl_datang' => $data['tgl_datang'],'kodebarang' => $data['kodebarang']]);
     if(!empty($lastlabel)){
         $start = $lastlabel->no_label;
 	}
