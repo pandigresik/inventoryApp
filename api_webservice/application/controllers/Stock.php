@@ -49,7 +49,6 @@ class Stock extends REST_Controller
     {   
 	
 	$datas = json_decode($this->post('listbarang'),1);
-log_message('error',json_encode($this->decodedToken));
 $output = ['status' => 1, 'message' => 'Barang berhasil ditambahkan'];
         $this->response($output, 200);
         return;
@@ -135,7 +134,7 @@ $output = ['status' => 1, 'message' => 'Barang berhasil ditambahkan'];
 	/* cek stocknya dulu
 //	$jmlStock = $this->db->query('exec dbo.stockBarang \'\',\''.$data['kodebarang'].'\'')->row_array();
 */
-//	$jmlStock = $this->db->query('exec dbo.stockBarangRmi \'\',\''.$data['kodebarang'].'\',\''.$data['quantity'].'\'')->row_array();
+//	$jmlStock = $this->db->query('exec dbo.stockBarangRmi \'\',\''.$data['mr'].'\',\''.$data['fg'].'\',\''.$data['kodebarang'].'\',\''.$data['quantity'].'\'')->row_array();
 	$jmlStock = ['status' => 0, 'message' => 'Tidak bisa dilakukan stock out, jumlah melebihi quantity '];
 	if(empty($jmlStock)){
 		$error++;

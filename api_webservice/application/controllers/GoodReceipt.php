@@ -85,7 +85,7 @@ class GoodReceipt extends REST_Controller
 		$nomer = str_pad($start,4,"0",STR_PAD_LEFT);
 		$_data = $data;
 		$_data['quantity'] = ceil($data['quantity']/$data['qtylabel']);
-		array_push($qrlabel,$this->generateLabel($_data,$nomer));
+		//array_push($qrlabel,$this->generateLabel($_data,$nomer));
 		array_push($label,$nomer);
         $_data['no_label'] = $start;
 		unset($_data['qtylabel']);
