@@ -48,20 +48,41 @@ class GoodReceipt extends REST_Controller
 
 //	$detail = $this->db->query('exec dbo.getGoodReceiptRmi \''.$rmi.'\'')->result_array();	
 	$detail = [
-	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => ['PO/2019/08/0001','PO/2019/08/0002','PO/2019/08/0003']],
-	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => ['PO/2019/08/0004','PO/2019/08/0005','PO/2019/08/0006']],
-	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => ['PO/2019/08/0007','PO/2019/08/0008','PO/2019/08/0009']],
+	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0001'],
+	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0002'],
+	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0003'],
+	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0004'],
+	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0005'],
+	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0006'],
+	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0007'],
+	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0008'],
+	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0009']
 	];
 
 	$output = [
 		'status' => 1, 
 		'message' => 'Detail stok barang',
-		'content' => $detail
+		'content' => $this->groupingRmi($detail)
 	];
 	
         $this->response($output, 200);
 	}	
 	
+	private function groupingRmi($details){
+        $result = [];
+        if (empty($details)) {
+            return $result;
+        }
+		foreach($details as $d){
+			if(!isset($result[$d['rmi']])){
+                $result[$d['rmi']] = $d;
+                $result[$d['rmi']]['po'] = [];
+			}
+            array_push($result[$d['rmi']]['po'], $d['po']);
+		}
+		return $result;
+	}
+
 	public function save_post()
     {   
 

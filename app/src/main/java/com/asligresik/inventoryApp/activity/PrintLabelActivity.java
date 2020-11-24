@@ -168,13 +168,14 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
 
     private String generateQRLabel(String label, HashMap<String,String> hashMap) {
         String tgl = hashMap.get("tgl").replace("-",".").substring(2);
-        String result ="[L]IPG-FORM/PPIC-1/IC-6\n"+
-                "[L]REV  : 3 [R]"+hashMap.get("tgl").substring(0,6)+"\n"+
-                "[L]DATE  : 01.09.19 \n"+
-                "[C]<u><font size='small'>PENERIMAAN</font></u>\n" +
-                "[C]<b>" + label + "</b>\n"+
-                "[L]\n"+
-                "[C]<qrcode size='10'>"+hashMap.get("rmi")+"."+tgl+"."+label+"&"+hashMap.get("tgl")+"&"+hashMap.get("qty")+"&"+hashMap.get("po")+"</qrcode>\n"+
+        String result ="[L]<font size='small'>IPG-FORM/PPIC-1/IC-6</font>\n"+
+                "[L]<font size='small'>REV  : 3 </font>[R]"+hashMap.get("tgl").substring(0,7)+"\n"+
+                "[L]<font size='small'>DATE  : 01.09.19 </font>\n"+
+                "[C]<font size='tall'>PENERIMAAN MATERIAL</font>\n" +
+                "[C]" + label + "\n"+
+                "[C]<qrcode size='18'>"+hashMap.get("rmi")+"."+tgl+"."+label+"&"+hashMap.get("tgl")+"&"+hashMap.get("qty")+"&"+hashMap.get("po")+"</qrcode>\n"+
+                "[L]Tanggal :"+hashMap.get("tgl")+"\n"+
+                "[L]Quantity :"+hashMap.get("qty")+"\n"+
                 "[L]<b>"+hashMap.get("rmi")+"</b>\n"+
                 "[L]<b>"+hashMap.get("partnumber")+"</b>\n"+
                 "[L]<b>"+hashMap.get("partname")+"</b>\n"+
