@@ -172,7 +172,8 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
             String po = acPoNumber.getText().toString();
             int jmllabel = Integer.parseInt(etLabelQuantity.getText().toString());
             String tgl = etTglDatang.getText().toString();
-            int qty = Integer.parseInt(etQuantity.getText().toString()) / jmllabel;
+            // int qty = Integer.parseInt(etQuantity.getText().toString()) / jmllabel;
+            int qty = Integer.parseInt(etQuantity.getText().toString());
             HashMap<String,String> hashMap = new HashMap<>();
             hashMap.put("rmi",rmi);
             hashMap.put("partname",partname);
