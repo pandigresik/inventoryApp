@@ -8,12 +8,12 @@
     tools:context=".activity.PrintLabelActivity">
 
     <com.asligresik.inventoryApp.activity.DelayAutoCompleteTextView
-        android:id="@+id/acRmi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Masukkan RMI code, minimal 4 karakter"
+        android:id="@+id/acPartName"
+        android:hint="Masukkan partname, minimal 4 karakter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/pb_loading_indicator"
@@ -23,8 +23,17 @@
         android:layout_marginRight="20dp"
         android:layout_gravity="center_vertical|right"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/acRmi"
-        app:layout_constraintTop_toTopOf="@+id/acRmi" />
+        app:layout_constraintEnd_toEndOf="@+id/acPartName"
+        app:layout_constraintTop_toTopOf="@+id/acPartName" />
+
+    <AutoCompleteTextView
+        android:id="@+id/acRmi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan RMI code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/acPartName" />
+
     <AutoCompleteTextView
         android:id="@+id/acPoNumber"
         android:hint="Nomer PO"
@@ -32,20 +41,13 @@
         app:layout_constraintTop_toBottomOf="@+id/acRmi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/etPartName"
-        android:hint="Part Name"
-        android:enabled="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acPoNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/etPartNumber"
         android:hint="Part Number"
         android:enabled="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPartName"
+        app:layout_constraintTop_toBottomOf="@+id/acPoNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

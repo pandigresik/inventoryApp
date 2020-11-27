@@ -74,7 +74,7 @@ public interface BaseApiService {
     Call<ResponseOutstandingRmiItem> getStockItemRmi();
 
     @GET("goodReceipt/rmiSearch")
-    Call<ResponseRmiGoodReceipt> getRmiSearch(@Query("rmi") String rmi);
+    Call<ResponseBody> getRmiSearch(@Query("partname") String partname);
 
     @FormUrlEncoded
     @POST("goodReceipt/save")

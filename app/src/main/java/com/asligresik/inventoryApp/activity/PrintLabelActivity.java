@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asligresik.inventoryApp.adapter.GoodReceiptSearchAdapter;
-import com.asligresik.inventoryApp.model.MrItem;
+import com.asligresik.inventoryApp.model.PartNameGoodReceipt;
 import com.asligresik.inventoryApp.model.ResponseSaveGoodReceipt;
 import com.asligresik.inventoryApp.model.RmiGoodReceipt;
 import com.dantsu.escposprinter.EscPosPrinter;
@@ -43,6 +43,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import com.google.gson.internal.LinkedTreeMap;
 
 import com.asligresik.inventoryApp.R;
 import com.zj.btsdk.BluetoothService;
@@ -66,6 +67,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     private boolean isPrinterReady = false;
     private Context mContext;
     private ArrayAdapter<String> poAdapter;
+    private ArrayAdapter<String> rmiAdapter;
     private String printText;
     private List<String> sequenceLabel = new ArrayList<String>();
 
@@ -76,15 +78,15 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
     @BindView(R.id.etTglDatang)
     EditText etTglDatang;
     @BindView(R.id.acRmi)
-    DelayAutoCompleteTextView acRmi;
+    AutoCompleteTextView acRmi;
     @BindView(R.id.acPoNumber)
     AutoCompleteTextView acPoNumber;
     @BindView(R.id.etLabelQuantity)
     EditText etLabelQuantity;
     @BindView(R.id.etQuantity)
     EditText etQuantity;
-    @BindView(R.id.etPartName)
-    EditText etPartName;
+    @BindView(R.id.acPartName)
+    DelayAutoCompleteTextView acPartName;
     @BindView(R.id.etPartNumber)
     EditText etPartNumber;
     @BindView(R.id.pb_loading_indicator)
@@ -104,20 +106,40 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
         ButterKnife.bind(this);
         setupBluetooth();
         poAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,new ArrayList<String>());
+        rmiAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,new ArrayList<String>());
+        GoodReceiptSearchAdapter pnAdapter = new GoodReceiptSearchAdapter(mContext);
         acPoNumber.setAdapter(poAdapter);
-        acRmi.setAdapter(new GoodReceiptSearchAdapter(mContext));
-        acRmi.setThreshold(4);
-        acRmi.setLoadingIndicator(loadingIndicator);
+        acRmi.setAdapter(rmiAdapter);
+        acPartName.setAdapter(pnAdapter);
+        acPartName.setThreshold(4);
+        acPartName.setLoadingIndicator(loadingIndicator);
+        acPartName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String pnSelected = (String) parent.getItemAtPosition(position);
+                PartNameGoodReceipt partNameGoodReceiptSelected = pnAdapter.getPartNameList().get(pnSelected);
+                Log.d("list rmi",partNameGoodReceiptSelected.toString());
+                List<String> listRmi = partNameGoodReceiptSelected.getKeyRmi();
+                Log.d("list rmi",listRmi.toString());
+                poAdapter.clear();
+                poAdapter.notifyDataSetChanged();
+                rmiAdapter.clear();
+                rmiAdapter.addAll(listRmi);
+                rmiAdapter.notifyDataSetChanged();
+//                acPartName.setText(pnSelected.getPartname());
+            }
+        });
         acRmi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                RmiGoodReceipt rmi = (RmiGoodReceipt) parent.getItemAtPosition(position);
+                String rmi = (String) parent.getItemAtPosition(position);
+                String partName = acPartName.getText().toString();
+                LinkedTreeMap<String, RmiGoodReceipt> rmiMap = pnAdapter.getListRmi(partName);
                 poAdapter.clear();
-                poAdapter.addAll(rmi.getPo());
+                poAdapter.addAll(rmiMap.get(rmi).getPo());
                 poAdapter.notifyDataSetChanged();
-                etPartName.setText(rmi.getPartname());
-                etPartNumber.setText(rmi.getPartnumber());
-                acRmi.setText(rmi.getRmi());
+                etPartNumber.setText(rmiMap.get(rmi).getPartnumber());
+                // acRmi.setText(rmi.getRmi());
             }
         });
 
@@ -145,7 +167,7 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
         String labelQR = "";
         if (!sequenceLabel.isEmpty()) {
             String rmi = acRmi.getText().toString();
-            String partname = etPartName.getText().toString();
+            String partname = acPartName.getText().toString();
             String partnumber = etPartNumber.getText().toString();
             String po = acPoNumber.getText().toString();
             int jmllabel = Integer.parseInt(etLabelQuantity.getText().toString());
@@ -168,9 +190,11 @@ public class PrintLabelActivity extends BaseActivity implements EasyPermissions.
 
     private String generateQRLabel(String label, HashMap<String,String> hashMap) {
         String tgl = hashMap.get("tgl").replace("-",".").substring(2);
-        String result ="[L]<font size='small'>IPG-FORM/PPIC-1/IC-6</font>\n"+
-                "[L]<font size='small'>REV  : 3 </font>[R]"+hashMap.get("tgl").substring(0,7)+"\n"+
-                "[L]<font size='small'>DATE  : 01.09.19 </font>\n"+
+        String result = "[L]\n"+
+                "[L]<font size='small'>IPG-FORM/PPIC-1/IC-6</font>\n"+
+                "[L]<font size='small'>REV  : 3 </font>\n"+
+                "[L]<font size='small'>DATE  : 01.09.19 </font>"+
+                "[R]"+hashMap.get("tgl").substring(0,7)+"\n"+
                 "[C]<font size='tall'>PENERIMAAN MATERIAL</font>\n" +
                 "[C]" + label + "\n"+
                 "[C]<qrcode size='18'>"+hashMap.get("rmi")+"."+tgl+"."+label+"&"+hashMap.get("tgl")+"&"+hashMap.get("qty")+"&"+hashMap.get("po")+"</qrcode>\n"+

@@ -20,7 +20,7 @@ class GoodReceipt extends REST_Controller
         parent::__construct();
 		$this->load->helper(array('authorization','jwt'));
 		$this->load->model('good_receipt_model','grm');
-		$this->checkToken();
+//		$this->checkToken();
     }
     
     private function checkToken()
@@ -44,18 +44,18 @@ class GoodReceipt extends REST_Controller
     		
 	public function rmiSearch_get()
     {
-	$rmi = $this->get('rmi'); 
+	$rmi = $this->get('partname'); 
 
-//	$detail = $this->db->query('exec dbo.getGoodReceiptRmi \''.$rmi.'\'')->result_array();	
+//	$detail = $this->db->query('exec dbo.getGoodReceiptRmi \''.$partname.'\'')->result_array();	
 	$detail = [
-	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0001'],
-	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0002'],
+	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0001'],
+	   ['rmi' => 'RMI.WH.01.00000446','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0002'],
 	   ['rmi' => 'RMI.WH.01.00000448','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7865', 'po' => 'PO/2019/08/0003'],
-	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0004'],
+	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KL', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0004'],
 	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0005'],
-	   ['rmi' => 'RMI.WH.01.00000449','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0006'],
-	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0007'],
-	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0008'],
+	   ['rmi' => 'RMI.WH.01.00000445','partname' => 'MHY-90876-KM', 'partnumber' => 'MH7867', 'po' => 'PO/2019/08/0006'],
+	   ['rmi' => 'RMI.WH.01.00000441','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0007'],
+	   ['rmi' => 'RMI.WH.01.00000443','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0008'],
 	   ['rmi' => 'RMI.WH.01.00000447','partname' => 'MHY-90876-KS', 'partnumber' => 'MH7869', 'po' => 'PO/2019/08/0009']
 	];
 
@@ -64,22 +64,35 @@ class GoodReceipt extends REST_Controller
 		'message' => 'Detail stok barang',
 		'content' => $this->groupingRmi($detail)
 	];
+	$responseCode = 200;
+	if(empty($output['content'])){
+		$responseCode = 201;
+	}
 	
-        $this->response($output, 200);
+        $this->response($output, $responseCode);
 	}	
 	
 	private function groupingRmi($details){
         $result = [];
+		$tmpResult = [];
         if (empty($details)) {
             return $result;
         }
 		foreach($details as $d){
-			if(!isset($result[$d['rmi']])){
-                $result[$d['rmi']] = $d;
-                $result[$d['rmi']]['po'] = [];
+			$partName = $d['partname'];
+			$rmi = $d['rmi'];
+			if(!isset($result[$partName])){
+				$result[$partName] = [];
 			}
-            array_push($result[$d['rmi']]['po'], $d['po']);
+			if(!isset($result[$partName][$rmi])){
+				$result[$partName][$rmi] = $d;
+				$result[$partName][$rmi]['po'] = [];
+			}
+            array_push($result[$partName][$rmi]['po'], $d['po']);
 		}
+
+
+
 		return $result;
 	}
 

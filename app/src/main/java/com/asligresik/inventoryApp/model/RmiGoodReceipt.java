@@ -1,15 +1,23 @@
 package com.asligresik.inventoryApp.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class RmiGoodReceipt {
     @SerializedName("rmi")
+    @Expose
     private String rmi;
 
     @SerializedName("po")
     private List<String> po;
+
+    @SerializedName("partnumber")
+    private String partnumber;
+
+    @SerializedName("partname")
+    private String partname;
 
     public String getPartnumber() {
         return partnumber;
@@ -27,12 +35,6 @@ public class RmiGoodReceipt {
         this.partname = partname;
     }
 
-    @SerializedName("partnumber")
-    private String partnumber;
-
-    @SerializedName("partname")
-    private String partname;
-
     public String getRmi() {
         return rmi;
     }
@@ -47,5 +49,15 @@ public class RmiGoodReceipt {
 
     public void setPo(List<String> po) {
         this.po = po;
+    }
+
+    @Override
+    public String toString() {
+        return "RmiGoodReceipt{" +
+                "rmi='" + rmi + '\'' +
+                ", po=" + po +
+                ", partnumber='" + partnumber + '\'' +
+                ", partname='" + partname + '\'' +
+                '}';
     }
 }

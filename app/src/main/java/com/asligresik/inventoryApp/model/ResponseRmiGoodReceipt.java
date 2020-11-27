@@ -2,12 +2,13 @@ package com.asligresik.inventoryApp.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ResponseRmiGoodReceipt {
 
 	@SerializedName("content")
-	private List<RmiGoodReceipt> items;
+	private HashMap<String,PartNameGoodReceipt> items;
 
 	@SerializedName("status")
 	private Integer status;
@@ -15,11 +16,11 @@ public class ResponseRmiGoodReceipt {
 	@SerializedName("message")
 	private String message;
 
-	public List<RmiGoodReceipt> getItems() {
+	public HashMap<String, PartNameGoodReceipt> getItems() {
 		return items;
 	}
 
-	public void setItems(List<RmiGoodReceipt> items) {
+	public void setItems(HashMap<String, PartNameGoodReceipt> items) {
 		this.items = items;
 	}
 
@@ -40,8 +41,11 @@ public class ResponseRmiGoodReceipt {
 	}
 
 	@Override
-	public String toString(){
-		return
-				String.format("ResponseGoodReceipt{items = '%s',status = '%d',message = '%s'}", items, status, message);
+	public String toString() {
+		return "ResponseRmiGoodReceipt{" +
+				"items=" + items +
+				", status=" + status +
+				", message='" + message + '\'' +
+				'}';
 	}
 }
