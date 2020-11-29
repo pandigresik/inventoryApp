@@ -114,24 +114,28 @@
         <Button
             android:id="@+id/btnSave"
             android:textSize="8sp"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Simpan" />
+
         <Button
             android:id="@+id/btnSavePrint"
-            android:textSize="8sp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Simpan - Cetak" />
+            android:text="Simpan - Cetak"
+            android:textSize="8sp" />
         <Button
             android:id="@+id/btnPrint"
             android:textSize="8sp"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cetak" />
         <Button
             android:id="@+id/btnDirect"
             android:textSize="8sp"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Test !" />
