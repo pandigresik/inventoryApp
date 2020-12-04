@@ -193,13 +193,12 @@ public class PrintLabelActivity extends BaseActivity
 
     private String generateQRLabel(String label, HashMap<String, String> hashMap) {
         String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
-        String result = "[C]<font size='tall'>LABEL MATERIAL</font>\n" 
-        	+ "[C]" + label + "\n" 
-        	+ "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&"
-                + hashMap.get("tgl") + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n"
-                + "[L]Tanggal :" + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
+        String result = "[C]<font size='tall'>LABEL MATERIAL</font>\n" + "[C]" + label + "\n" + "[L]\n"
+                + "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&" + hashMap.get("tgl")
+                + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
+                + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
                 + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
-                + hashMap.get("partname") + "</b>\n" + "[C]__________________________\n";
+                + hashMap.get("partname") + "</b>";
         return result;
     }
 
@@ -411,7 +410,7 @@ public class PrintLabelActivity extends BaseActivity
     @SuppressLint("SimpleDateFormat")
     public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection, String printText) {
         SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
-        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 300, 48f, 32);
+        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 600, 48f, 32);
         // Toast.makeText(mContext,"Siap Cetak "+printText, Toast.LENGTH_SHORT).show();
         return printer.setTextToPrint(printText);
     }
