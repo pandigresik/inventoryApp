@@ -193,8 +193,9 @@ public class PrintLabelActivity extends BaseActivity
 
     private String generateQRLabel(String label, HashMap<String, String> hashMap) {
         String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
-        String result = "[C]<font size='tall'>LABEL MATERIAL</font>\n" + "[L]" + hashMap.get("tgl").substring(0, 7)
-                + "[C]" + label + "\n" + "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&"
+        String result = "[C]<font size='tall'>LABEL MATERIAL</font>\n" 
+        	+ "[C]" + label + "\n" 
+        	+ "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&"
                 + hashMap.get("tgl") + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n"
                 + "[L]Tanggal :" + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
                 + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
