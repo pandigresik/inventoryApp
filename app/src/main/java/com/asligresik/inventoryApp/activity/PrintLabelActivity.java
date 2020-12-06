@@ -98,6 +98,9 @@ public class PrintLabelActivity extends BaseActivity
     Button btnPrint;
     @BindView(R.id.btnSavePrint)
     Button btnSavePrint;
+    @BindView(R.id.etdpi)
+    EditText etDpi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,7 +166,11 @@ public class PrintLabelActivity extends BaseActivity
     @OnClick(R.id.btnPrint)
     public void cetakLabelText() {
         String printText = getPrintedText();
-        new AsyncBluetoothEscPosPrint(this).execute(this.getAsyncEscPosPrinter(null, printText));
+        int dpi = Integer.parseInt(etDpi.getText().toString());
+        if(dpi <= 0){
+            dpi = 350;
+        }
+        new AsyncBluetoothEscPosPrint(this).execute(this.getAsyncEscPosPrinter(null, printText, dpi));
     }
 
     private String getPrintedText() {
@@ -407,10 +414,14 @@ public class PrintLabelActivity extends BaseActivity
     /**
      * Asynchronous printing
      */
-    @SuppressLint("SimpleDateFormat")
     public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection, String printText) {
-        SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
-        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 600, 48f, 32);
+        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 300, 48f, 32);
+        // Toast.makeText(mContext,"Siap Cetak "+printText, Toast.LENGTH_SHORT).show();
+        return printer.setTextToPrint(printText);
+    }
+
+    public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection, String printText, int dpi) {
+        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, dpi, 48f, 32);
         // Toast.makeText(mContext,"Siap Cetak "+printText, Toast.LENGTH_SHORT).show();
         return printer.setTextToPrint(printText);
     }

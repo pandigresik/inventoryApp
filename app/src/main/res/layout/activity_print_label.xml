@@ -92,6 +92,16 @@
         android:layout_height="wrap_content" />
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/etdpi"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="DPI printer"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_status" />
     <TextView
         app:layout_constraintBottom_toTopOf="@id/blockBtnPrint"
         app:layout_constraintStart_toStartOf="parent"
@@ -121,17 +131,16 @@
 
         <Button
             android:id="@+id/btnSavePrint"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Simpan - Cetak"
             android:textSize="8sp" />
         <Button
             android:id="@+id/btnPrint"
             android:textSize="8sp"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cetak" />
+            android:text="Cetak Lagi" />
         <Button
             android:id="@+id/btnDirect"
             android:textSize="8sp"
