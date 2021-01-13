@@ -124,9 +124,9 @@ public class PrintLabelActivity extends BaseActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String pnSelected = (String) parent.getItemAtPosition(position);
                 PartNameGoodReceipt partNameGoodReceiptSelected = pnAdapter.getPartNameList().get(pnSelected);
-                Log.d("list rmi", partNameGoodReceiptSelected.toString());
+                //Log.d("list rmi", partNameGoodReceiptSelected.toString());
                 List<String> listRmi = partNameGoodReceiptSelected.getKeyRmi();
-                Log.d("list rmi", listRmi.toString());
+                //Log.d("list rmi", listRmi.toString());
                 poAdapter.clear();
                 poAdapter.notifyDataSetChanged();
                 rmiAdapter.clear();
@@ -182,7 +182,6 @@ public class PrintLabelActivity extends BaseActivity
             String po = acPoNumber.getText().toString();
             int jmllabel = Integer.parseInt(etLabelQuantity.getText().toString());
             String tgl = etTglDatang.getText().toString();
-            // int qty = Integer.parseInt(etQuantity.getText().toString()) / jmllabel;
             int qty = Integer.parseInt(etQuantity.getText().toString());
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("rmi", rmi);
@@ -193,6 +192,8 @@ public class PrintLabelActivity extends BaseActivity
             hashMap.put("qty", String.valueOf(qty));
             for (String label : sequenceLabel) {
                 labelQR += generateQRLabel(label, hashMap);
+                labelQR += generateQRLabel2(label, hashMap);
+                labelQR += generateQRLabel3(label, hashMap);
             }
         }
         return labelQR;
@@ -200,7 +201,29 @@ public class PrintLabelActivity extends BaseActivity
 
     private String generateQRLabel(String label, HashMap<String, String> hashMap) {
         String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
-        String result = "[C]<font size='tall'>LABEL MATERIAL</font>\n" + "[C]" + label + "\n" + "[L]\n"
+        String result = "[C]<font size='tall'>LABEL MATERIAL</font>\n" + "[C]" + label + "\n" + "[C]\n"
+                + "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&" + hashMap.get("tgl")
+                + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
+                + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
+                + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
+                + hashMap.get("partname") + "</b>";
+        return result;
+    }
+
+    private String generateQRLabel2(String label, HashMap<String, String> hashMap) {
+        String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
+        String result = "[C]<font size='tall'>LABEL MATERIAL 2</font>\n" + "[C]" + label + "\n" + "[L]\n"
+                + "[L]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&" + hashMap.get("tgl")
+                + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
+                + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
+                + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
+                + hashMap.get("partname") + "</b>";
+        return result;
+    }
+
+    private String generateQRLabel3(String label, HashMap<String, String> hashMap) {
+        String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
+        String result = "[C]<font size='tall'>LABEL MATERIAL 3</font>\n" + "[C]" + label + "\n\n"
                 + "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&" + hashMap.get("tgl")
                 + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
                 + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
