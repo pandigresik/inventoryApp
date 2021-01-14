@@ -109,6 +109,7 @@ public class PrintLabelActivity extends BaseActivity
         mContext = this;
         ButterKnife.bind(this);
         setupBluetooth();
+        etDpi.setText("350"); /* set default dpi */
         poAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
                 new ArrayList<String>());
         rmiAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
@@ -166,7 +167,11 @@ public class PrintLabelActivity extends BaseActivity
     @OnClick(R.id.btnPrint)
     public void cetakLabelText() {
         String printText = getPrintedText();
-        int dpi = Integer.parseInt(etDpi.getText().toString());
+        int dpi = 0;
+        if(!etDpi.getText().toString().isEmpty()){
+            dpi = Integer.parseInt(etDpi.getText().toString());
+        }
+
         if(dpi <= 0){
             dpi = 350;
         }
@@ -206,7 +211,7 @@ public class PrintLabelActivity extends BaseActivity
                 + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
                 + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
                 + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
-                + hashMap.get("partname") + "</b>";
+                + hashMap.get("partname") + "</b>\n";
         return result;
     }
 
@@ -217,7 +222,7 @@ public class PrintLabelActivity extends BaseActivity
                 + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
                 + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
                 + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
-                + hashMap.get("partname") + "</b>";
+                + hashMap.get("partname") + "</b>\n";
         return result;
     }
 
@@ -228,7 +233,7 @@ public class PrintLabelActivity extends BaseActivity
                 + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
                 + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
                 + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
-                + hashMap.get("partname") + "</b>";
+                + hashMap.get("partname") + "</b>\n";
         return result;
     }
 
