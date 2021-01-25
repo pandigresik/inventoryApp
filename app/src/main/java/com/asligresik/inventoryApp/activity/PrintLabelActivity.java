@@ -109,7 +109,7 @@ public class PrintLabelActivity extends BaseActivity
         mContext = this;
         ButterKnife.bind(this);
         setupBluetooth();
-        etDpi.setText("350"); /* set default dpi */
+        etDpi.setText("300"); /* set default dpi */
         poAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
                 new ArrayList<String>());
         rmiAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
@@ -173,7 +173,7 @@ public class PrintLabelActivity extends BaseActivity
         }
 
         if(dpi <= 0){
-            dpi = 350;
+            dpi = 300;
         }
         new AsyncBluetoothEscPosPrint(this).execute(this.getAsyncEscPosPrinter(null, printText, dpi));
     }
@@ -197,8 +197,8 @@ public class PrintLabelActivity extends BaseActivity
             hashMap.put("qty", String.valueOf(qty));
             for (String label : sequenceLabel) {
                 labelQR += generateQRLabel(label, hashMap);
-                labelQR += generateQRLabel2(label, hashMap);
-                labelQR += generateQRLabel3(label, hashMap);
+//                labelQR += generateQRLabel2(label, hashMap);
+//                labelQR += generateQRLabel3(label, hashMap);
             }
         }
         return labelQR;
@@ -207,28 +207,6 @@ public class PrintLabelActivity extends BaseActivity
     private String generateQRLabel(String label, HashMap<String, String> hashMap) {
         String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
         String result = "[C]<font size='tall'>LABEL MATERIAL</font>\n" + "[C]" + label + "\n" + "[C]\n"
-                + "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&" + hashMap.get("tgl")
-                + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
-                + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
-                + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
-                + hashMap.get("partname") + "</b>\n";
-        return result;
-    }
-
-    private String generateQRLabel2(String label, HashMap<String, String> hashMap) {
-        String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
-        String result = "[C]<font size='tall'>LABEL MATERIAL 2</font>\n" + "[C]" + label + "\n" + "[L]\n"
-                + "[L]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&" + hashMap.get("tgl")
-                + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
-                + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"
-                + hashMap.get("rmi") + "</b>\n" + "[L]<b>" + hashMap.get("partnumber") + "</b>\n" + "[L]<b>"
-                + hashMap.get("partname") + "</b>\n";
-        return result;
-    }
-
-    private String generateQRLabel3(String label, HashMap<String, String> hashMap) {
-        String tgl = hashMap.get("tgl").replace("-", ".").substring(2);
-        String result = "[C]<font size='tall'>LABEL MATERIAL 3</font>\n" + "[C]" + label + "\n\n"
                 + "[C]<qrcode size='18'>" + hashMap.get("rmi") + "." + tgl + "." + label + "&" + hashMap.get("tgl")
                 + "&" + hashMap.get("qty") + "&" + hashMap.get("po") + "</qrcode>\n" + "[L]Tanggal :"
                 + hashMap.get("tgl") + "\n" + "[L]Quantity :" + hashMap.get("qty") + "\n" + "[L]<b>"

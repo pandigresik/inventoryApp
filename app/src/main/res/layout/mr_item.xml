@@ -8,13 +8,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_weight="1"
-        android:padding="@dimen/default_gap"
+        android:padding="2dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
-        app:contentPadding="12dp">
+        app:contentPadding="4dp">
 
         <TextView
             android:id="@+id/txtMrItem"
