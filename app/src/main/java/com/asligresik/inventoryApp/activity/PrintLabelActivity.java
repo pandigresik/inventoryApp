@@ -110,9 +110,9 @@ public class PrintLabelActivity extends BaseActivity
         ButterKnife.bind(this);
         setupBluetooth();
         etDpi.setText("300"); /* set default dpi */
-        poAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
+        poAdapter = new ArrayAdapter<String>(this, R.layout.spinner_row,
                 new ArrayList<String>());
-        rmiAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
+        rmiAdapter = new ArrayAdapter<String>(this, R.layout.spinner_row,
                 new ArrayList<String>());
         GoodReceiptSearchAdapter pnAdapter = new GoodReceiptSearchAdapter(mContext);
         acPoNumber.setAdapter(poAdapter);

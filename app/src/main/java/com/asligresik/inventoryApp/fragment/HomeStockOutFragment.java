@@ -262,7 +262,7 @@ public class HomeStockOutFragment extends Fragment {
                         for(MrItem item : items){
                             listMr.add(item.getMrFg());
                         }
-                        adapterMr = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, listMr);
+                        adapterMr = new ArrayAdapter<String>(getContext(), R.layout.spinner_row, listMr);
                         mrSpinner.setAdapter(adapterMr);
                         //adapterMr.notifyDataSetChanged();
                         loading.dismiss();
